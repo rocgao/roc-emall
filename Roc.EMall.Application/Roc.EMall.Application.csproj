@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+      <PackageReference Include="Snowflake.Core" Version="2.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Roc.EMall.Domain\Roc.EMall.Domain.csproj" />
+      <ProjectReference Include="..\Roc.EMall.Infra\Roc.EMall.Infra.csproj" />
+      <ProjectReference Include="..\Roc.EMall.Repository\Roc.EMall.Repository.csproj" />
+    </ItemGroup>
+
+</Project>

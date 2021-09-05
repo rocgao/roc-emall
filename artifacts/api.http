@@ -1,0 +1,20 @@
+# 提交新订单
+POST {{host}}/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+###

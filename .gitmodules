@@ -1,0 +1,3 @@
+[submodule "Dapper.Logging"]
+	path = Dapper.Logging
+	url = git@github.com:rocgao/Dapper.Logging.git

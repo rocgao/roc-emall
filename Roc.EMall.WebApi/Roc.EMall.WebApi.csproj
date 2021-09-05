@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Roc.EMall.Application\Roc.EMall.Application.csproj" />
+      <ProjectReference Include="..\Roc.EMall.Infra\Roc.EMall.Infra.csproj" />
+    </ItemGroup>
+
+</Project>
