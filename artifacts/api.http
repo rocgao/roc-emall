@@ -18,3 +18,8 @@ Content-Type: application/json
 }
 
 ###
+
+# 发起付款
+GET {{host}}/orders/1434534943584817152/payment
+
+###

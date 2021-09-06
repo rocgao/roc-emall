@@ -29,6 +29,7 @@ namespace Roc.EMall.Domain.OrderContext
         public decimal Amount { get; }
         public LineItem[] Items { get; }
         public OrderStatus? Status { get; private set; }
+        public string TransactionId { get; set; }
 
         public NewOrderEvent GetNewOrderEvent() => new NewOrderEvent(OrderId, OrderId);
 

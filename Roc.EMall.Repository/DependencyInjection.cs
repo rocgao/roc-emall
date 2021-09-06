@@ -15,7 +15,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddTransient<ISkuRepository,SkuRepository>()
                 .AddTransient<IGoodsPriceQueryRepository,GoodsPriceQueryRepository>()
                 .AddTransient<IUserQueryRepository,UserQueryRepository>()
-                .AddTransient<IOrderRepository,OrderRepository>();
+                .AddTransient<IOrderRepository,OrderRepository>()
+                .AddTransient<IOrderQueryRepository,OrderQueryRepository>()
+                .AddTransient<ITransactionRepository,TransactionRepository>()
+                .AddTransient<ITransactionQueryRepository,TransactionQueryRepository>();
             
         }
     }

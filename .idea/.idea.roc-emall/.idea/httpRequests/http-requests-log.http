@@ -1,0 +1,356 @@
+GET http://localhost:9611/api/orders/1434534943584817152/payment
+
+<> 2021-09-06T134056.200.json
+
+###
+
+GET http://localhost:9611/api/orders/1434534943584817152/payment
+
+<> 2021-09-06T134051.200.json
+
+###
+
+GET http://localhost:9611/api/orders/1434534943584817152/payment
+
+<> 2021-09-06T133919.500.txt
+
+###
+
+GET http://localhost:9611/api/orders/1434534943584817152/payment
+
+<> 2021-09-06T133353.500.txt
+
+###
+
+GET http://localhost:9611/api/orders/1434534943584817152/payment
+
+<> 2021-09-06T133239.200.json
+
+###
+
+GET http://localhost:9611/api/orders/1434534943584817152/payment
+
+<> 2021-09-06T132709.500.txt
+
+###
+
+GET http://localhost:9611/api/orders/1434534943584817152/payment
+
+<> 2021-09-06T132539.500.txt
+
+###
+
+GET http://localhost:9611/api/orders/1434534943584817152/payment
+
+<> 2021-09-06T132331.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T231237.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T231151.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T231046.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T230857.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T230705.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T230449.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T230300.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T230114.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T225946.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T225744.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T225600.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T225354.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T132905.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/jsonw
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-05T132854.415.json
+
+###
+
