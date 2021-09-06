@@ -7,6 +7,26 @@ namespace Roc.EMall.Repository.Impl
 {
     class TransactionRepository : RepositoryBase, ITransactionRepository
     {
+        public async ValueTask<PaymentTransaction> GetAsync(long transactionId)
+        {
+            var entry = await Database.QueryFirstOrDefaultAsync("SELECT * FROM `payment_transaction` WHERE `id`=@transactionId", new{transactionId}, transaction: Transaction);
+            if (null == entry)
+            {
+                return null;
+            }
+            
+            return new PaymentTransaction(entry.id)
+            {
+                BusinessId = entry.business_id,
+                Amount = entry.amount,
+                CreatedAt = entry.created_at,
+                IsPaid = entry.is_paid != 0,
+                PaidTime = entry.paid_time,
+                IsCanceled = entry.is_canceled != 0,
+                CanceledTime = entry.cancel_time,
+            };
+        }
+
         public async ValueTask StoreAsync(PaymentTransaction model)
         {
             var insertTransactionSql = @"insert into `payment_transaction` (`id`,`business_id`,`amount`,`created_at`) 
@@ -22,7 +42,7 @@ namespace Roc.EMall.Repository.Impl
             }
             else
             {
-                var affectedRows = await Database.ExecuteAsync(updateTransactionSql, new { model.Id, model.IsPaid, model.PaidTime, ConVersion = existing.con_version });
+                var affectedRows = await Database.ExecuteAsync(updateTransactionSql, new { model.Id, model.IsPaid, model.PaidTime,model.IsCanceled,model.CanceledTime, ConVersion = existing.con_version });
                 if (affectedRows != 1)
                 {
                     throw new InvalidOperationException("更新行失败");

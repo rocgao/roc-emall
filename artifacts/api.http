@@ -23,3 +23,8 @@ Content-Type: application/json
 GET {{host}}/orders/1434534943584817152/payment
 
 ###
+
+# 付款成功
+POST {{host}}/payments/1434751300108685312
+
+###

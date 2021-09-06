@@ -35,10 +35,18 @@ namespace Roc.EMall.Application.Impl
                 BusinessId = order.BusinessId,
                 Amount = order.Amount
             };
+            
+            order.InitiatePayment(paymentTransaction.Id);
 
             using var uow = _uowFactory.Create();
+            
             var transactionRepository = uow.CreateRepository<ITransactionRepository>();
             await transactionRepository.StoreAsync(paymentTransaction);
+
+            var orderRepository = uow.CreateRepository<IOrderRepository>();
+            await orderRepository.StoreAsync(order);
+            
+            // 提交事务
             uow.Commit();
             
             return paymentTransaction.Id;

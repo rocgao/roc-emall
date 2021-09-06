@@ -1,4 +1,5 @@
 using System;
+using Roc.EMall.Domain.Event;
 
 namespace Roc.EMall.Domain.PaymentContext
 {
@@ -16,5 +17,23 @@ namespace Roc.EMall.Domain.PaymentContext
         public bool IsCanceled { get; set; }
         public DateTime? CanceledTime { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public void Pay()
+        {
+            if (IsCanceled)
+            {
+                throw new InvalidOperationException("交易已被取消");
+            }
+
+            if (IsPaid)
+            {
+                return;
+            }
+
+            IsPaid = true;
+            PaidTime=DateTime.Now;
+        }
+
+        public PaymentFinishEvent CreatePaymentFinishEvent() => new PaymentFinishEvent(Id, Id, BusinessId);
     }
 }

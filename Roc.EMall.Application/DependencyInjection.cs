@@ -15,7 +15,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddMediatR(Assembly.GetExecutingAssembly())
                 .AddSingleton<IDomainEventPublisher,DomainEventPublisher>()
                 .AddSingleton<ISubmitOrderAppService, SubmitOrderAppService>()
-                .AddSingleton<IPayOrderAppService,PayOrderAppService>();
+                .AddSingleton<IPayOrderAppService,PayOrderAppService>()
+                .AddSingleton<IPayAppService,PayAppService>();
         }
     }
 }

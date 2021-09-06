@@ -7,18 +7,21 @@ namespace Roc.EMall.Domain.OrderContext
     public partial class Order
     {
         private readonly string _businessId;
-        private static readonly Dictionary<OrderStatus, IOrderStatusHandler> statusHandlers=new()
+
+        private static readonly Dictionary<OrderStatus, IOrderStatusHandler> statusHandlers = new()
         {
-            { OrderStatus.Submitted ,new SubmittedStatusHandler()}
+            { OrderStatus.Submitted, new SubmittedStatusHandler() },
+            { OrderStatus.Paid, new PaidStatusHandler() },
         };
-        
-        public Order(long orderId, OwnerInfo owner, RecipientInfo recipient, decimal amount,LineItem[] items)
+
+        public Order(long orderId, OwnerInfo owner, RecipientInfo recipient, decimal amount,OrderStatus? status, LineItem[] items)
         {
             _businessId = orderId.ToString();
             OrderId = orderId;
             Owner = owner;
             Recipient = recipient;
             Amount = amount;
+            Status = status;
             Items = items;
         }
 
@@ -29,9 +32,11 @@ namespace Roc.EMall.Domain.OrderContext
         public decimal Amount { get; }
         public LineItem[] Items { get; }
         public OrderStatus? Status { get; private set; }
-        public string TransactionId { get; set; }
+        public long TransactionId { get; set; }
 
-        public NewOrderEvent GetNewOrderEvent() => new NewOrderEvent(OrderId, OrderId);
+        public NewOrderEvent GetNewOrderEvent(long eventId) => new NewOrderEvent(eventId, OrderId);
+
+        public OrderPaidEvent GetOrderPaidEvent(long eventId) => new OrderPaidEvent(eventId, OrderId);
 
         public void ChangeStatus(OrderStatus status)
         {
@@ -41,7 +46,36 @@ namespace Roc.EMall.Domain.OrderContext
                 return;
             }
 
-            throw new InvalidOperationException($"不支持的订单状态！Status:{status}");
+            throw new InvalidOperationException($"不支持的订单状态！Status:{status.ToString()}");
+        }
+
+        /// <summary>
+        /// 发起付款
+        /// </summary>
+        /// <param name="transactionId">交易编号</param>
+        /// <exception cref="InvalidOperationException"></exception>
+        public void InitiatePayment(long transactionId)
+        {
+            if (Status != OrderStatus.Submitted)
+            {
+                throw new InvalidOperationException($"订单状态不正确！Status:{Status.ToString()}");
+            }
+
+            TransactionId = transactionId;
+        }
+
+        /// <summary>
+        /// 完成付款
+        /// </summary>
+        /// <param name="transactionId">交易编号</param>
+        /// <exception cref="ArgumentException"></exception>
+        public void CompletePayment(long transactionId)
+        {
+            if (transactionId != TransactionId)
+            {
+                throw new ArgumentException($"交易编号不正确！");
+            }
+            ChangeStatus(OrderStatus.Paid);
         }
     }
 }

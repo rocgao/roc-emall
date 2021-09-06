@@ -25,5 +25,20 @@ namespace Roc.EMall.Domain.OrderContext
                 order.Status = OrderStatus.Submitted;
             }
         }
+
+        private class PaidStatusHandler : IOrderStatusHandler
+        {
+            public void Handle(Order order)
+            {
+                if (order.Status is OrderStatus.Submitted or OrderStatus.Paid)
+                {
+                    order.Status = OrderStatus.Paid;
+                }
+                else
+                {
+                    throw new InvalidOperationException($"无法修改订单状态。{order.Status.ToString()} -> Paid");
+                }
+            }
+        }
     }
 }

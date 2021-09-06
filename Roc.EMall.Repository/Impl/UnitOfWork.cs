@@ -29,6 +29,7 @@ namespace Roc.EMall.Repository.Impl
             if (repo is RepositoryBase b)
             {
                 b.Database = _connection;
+                b.Transaction = _trans;
             }
 
             return repo;

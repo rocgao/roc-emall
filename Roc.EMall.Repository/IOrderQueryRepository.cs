@@ -6,5 +6,6 @@ namespace Roc.EMall.Repository
     public interface IOrderQueryRepository:IQueryRepository
     {
         ValueTask<Order> GetAsync(long orderId);
+        ValueTask<Order> GetByTransactionAsync(long transactionId);
     }
 }

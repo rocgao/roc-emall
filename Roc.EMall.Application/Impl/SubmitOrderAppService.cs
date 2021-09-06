@@ -44,7 +44,7 @@ namespace Roc.EMall.Application.Impl
             _calcAmountDomainService.Calc(priceStrategyContext);
             
             // 构建订单
-            var order =new Order(_idWorker.NextId(),owner,recipient,priceStrategyContext.Amount,calculatedGoods.Select(it=>new LineItem(it.GoodsId,it.Quantity,it.Amount)).ToArray());
+            var order =new Order(_idWorker.NextId(),owner,recipient,priceStrategyContext.Amount,null,calculatedGoods.Select(it=>new LineItem(it.GoodsId,it.Quantity,it.Amount)).ToArray());
             order.ChangeStatus(OrderStatus.Submitted);
             
             // 使用事务锁定库存并保存订单
@@ -69,7 +69,7 @@ namespace Roc.EMall.Application.Impl
             uow.Commit();
             
             // 发布领域事件
-            await _eventPublisher.PublishAsync(order.GetNewOrderEvent());
+            await _eventPublisher.PublishAsync(order.GetNewOrderEvent(_idWorker.NextId()));
 
             return order.OrderId;
         }
