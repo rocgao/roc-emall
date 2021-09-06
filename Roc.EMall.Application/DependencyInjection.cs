@@ -17,7 +17,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddSingleton<ISubmitOrderAppService, SubmitOrderAppService>()
                 .AddSingleton<IPayOrderAppService,PayOrderAppService>()
                 .AddSingleton<IPayAppService,PayAppService>()
-                .AddSingleton<IPackAppService,PackAppService>();
+                .AddSingleton<IPackAppService,PackAppService>()
+                .AddSingleton<IDeliverPackageAppService,DeliverPackageAppService>();
         }
     }
 }

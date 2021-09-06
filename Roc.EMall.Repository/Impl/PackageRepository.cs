@@ -56,7 +56,7 @@ namespace Roc.EMall.Repository.Impl
         }
 
         private const string updatePackageSql = @"update `package` set `con_version`=`con_version` + 1,`is_delivered`=@IsDelivered,`delivering_time`=@DeliveringTime,
-            `express_no`=@ExpressNo,`is_signed`=@IsSigned,`signing_time`=@SigninTime WHERE `id`=@Id AND `con_version`=@conVersion";
+            `express_no`=@ExpressNo,`is_signed`=@IsSigned,`signing_time`=@SigningTime WHERE `id`=@Id AND `con_version`=@conVersion";
         private async ValueTask UpdateAsync(Package package,int conVersion)
         {
             await Database.ExecuteAsync(updatePackageSql, new

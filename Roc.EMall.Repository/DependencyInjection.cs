@@ -19,7 +19,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddTransient<IOrderQueryRepository,OrderQueryRepository>()
                 .AddTransient<ITransactionRepository,TransactionRepository>()
                 .AddTransient<ITransactionQueryRepository,TransactionQueryRepository>()
-                .AddTransient<IPackageRepository,PackageRepository>();
+                .AddTransient<IPackageRepository,PackageRepository>()
+                .AddTransient<IPackageQueryRepository,PackageQueryRepository>();
             
         }
     }

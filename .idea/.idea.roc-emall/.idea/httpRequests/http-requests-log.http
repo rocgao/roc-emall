@@ -1,3 +1,25 @@
+PUT http://localhost:9611/api/packages/1434839692938973184/delivering
+Content-Type: application/json
+
+{
+  "expressNo": "123456677"
+}
+
+<> 2021-09-06T203005.200.json
+
+###
+
+PUT http://localhost:9611/api/packages/1434839692938973184/delivering
+Content-Type: application/json
+
+{
+  "expressNo": "123456677"
+}
+
+<> 2021-09-06T202926.500.txt
+
+###
+
 POST http://localhost:9611/api/packages?orderId=1434534943584817152
 
 <> 2021-09-06T192335.200.json
@@ -437,50 +459,6 @@ Content-Type: application/json
 }
 
 <> 2021-09-05T225354.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T132905.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/jsonw
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T132854.415.json
 
 ###
 
