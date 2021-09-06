@@ -12,6 +12,7 @@ namespace Roc.EMall.Domain.OrderContext
         {
             { OrderStatus.Submitted, new SubmittedStatusHandler() },
             { OrderStatus.Paid, new PaidStatusHandler() },
+            { OrderStatus.Packaged, new PackedStatusHandler() },
         };
 
         public Order(long orderId, OwnerInfo owner, RecipientInfo recipient, decimal amount,OrderStatus? status, LineItem[] items)

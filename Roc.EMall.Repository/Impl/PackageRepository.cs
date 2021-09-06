@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Roc.EMall.Domain.SkuContext;
@@ -27,6 +28,43 @@ namespace Roc.EMall.Repository.Impl
             
             await Database.ExecuteAsync("insert into `package_pending` (`order_id`,`created_at`) values(@OrderId,@CreatedAt)",
                 new { OrderId = orderId, CreatedAt = DateTime.Now },Transaction);
+        }
+
+        public async ValueTask StoreAsync(Package package)
+        {
+            var existingEntity = await Database.QueryFirstOrDefaultAsync("SELECT `con_version` FROM `package` WHERE `id`=@Id", package,Transaction);
+            if (existingEntity == null)
+            {
+                await InsertAsync(package);
+            }
+            else
+            {
+                await UpdateAsync(package, existingEntity.con_version);
+            }
+        }
+
+        private const string insertPackageSql = @"insert into `package` (`id`,`order_id`,`recipient_name`,`recipient_phone`,`recipient_address`,`items`,`created_at`) 
+            values(@Id,@OrderId,@RecipientName,@RecipientPhone,@RecipientAddress,@Items,@CreatedAt)";
+        private async ValueTask InsertAsync(Package package)
+        {
+            await Database.ExecuteAsync(insertPackageSql, new
+            {
+                package.Id, package.OrderId, package.RecipientName, package.RecipientPhone, package.RecipientAddress,
+                Items = package.Items.Select(it => $"{it.goodsId} -> {it.quantity}").Aggregate(string.Empty, (x, y) => $"{x},{y}"),
+                CreatedAt=DateTime.Now,
+            });
+        }
+
+        private const string updatePackageSql = @"update `package` set `con_version`=`con_version` + 1,`is_delivered`=@IsDelivered,`delivering_time`=@DeliveringTime,
+            `express_no`=@ExpressNo,`is_signed`=@IsSigned,`signing_time`=@SigninTime WHERE `id`=@Id AND `con_version`=@conVersion";
+        private async ValueTask UpdateAsync(Package package,int conVersion)
+        {
+            await Database.ExecuteAsync(updatePackageSql, new
+            {
+                package.Id,package.IsDelivered,package.DeliveringTime,package.ExpressNo,
+                package.IsSigned,package.SigningTime,
+                conVersion,
+            });
         }
     }
 }

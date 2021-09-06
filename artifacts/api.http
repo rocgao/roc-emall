@@ -28,3 +28,8 @@ GET {{host}}/orders/1434534943584817152/payment
 POST {{host}}/payments/1434751300108685312
 
 ###
+
+# 订单打包
+POST {{host}}/packages?orderId=1434534943584817152
+
+###

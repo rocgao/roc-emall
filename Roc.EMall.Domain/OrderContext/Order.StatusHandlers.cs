@@ -40,5 +40,18 @@ namespace Roc.EMall.Domain.OrderContext
                 }
             }
         }
+
+        private class PackedStatusHandler : IOrderStatusHandler
+        {
+            public void Handle(Order order)
+            {
+                if (order.Status is OrderStatus.Canceled)
+                {
+                    throw new InvalidOperationException("订单已取消");
+                }
+
+                order.Status = OrderStatus.Packaged;
+            }
+        }
     }
 }

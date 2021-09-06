@@ -16,7 +16,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddSingleton<IDomainEventPublisher,DomainEventPublisher>()
                 .AddSingleton<ISubmitOrderAppService, SubmitOrderAppService>()
                 .AddSingleton<IPayOrderAppService,PayOrderAppService>()
-                .AddSingleton<IPayAppService,PayAppService>();
+                .AddSingleton<IPayAppService,PayAppService>()
+                .AddSingleton<IPackAppService,PackAppService>();
         }
     }
 }
