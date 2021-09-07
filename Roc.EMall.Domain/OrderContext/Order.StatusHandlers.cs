@@ -79,5 +79,25 @@ namespace Roc.EMall.Domain.OrderContext
                 order.Status = OrderStatus.Signed;
             }
         }
+
+        private class CanceledStatusHandler : IOrderStatusHandler
+        {
+            public void Handle(Order order)
+            {
+                if (order.Status is OrderStatus.Canceled)
+                {
+                    return;
+                }
+                
+                if (order.Status is null or OrderStatus.Submitted)
+                {
+                    order.CanceledTime = DateTime.Now;
+                    order.Status = OrderStatus.Canceled;
+                    return;
+                }
+
+                throw new InvalidOperationException($"该订单不支持取消。Status:{order.Status.ToString()}");
+            }
+        }
     }
 }

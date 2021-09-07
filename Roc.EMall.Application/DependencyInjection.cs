@@ -19,7 +19,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddSingleton<ICompletePaymentAppService,CompletePaymentAppService>()
                 .AddSingleton<IPackAppService,PackAppService>()
                 .AddSingleton<IDeliverPackageAppService,DeliverPackageAppService>()
-                .AddSingleton<ISignPackageAppService,SignPackageAppService>();
+                .AddSingleton<ISignPackageAppService,SignPackageAppService>()
+                .AddSingleton<ICancelOrderAppService,CancelOrderAppService>();
         }
     }
 }

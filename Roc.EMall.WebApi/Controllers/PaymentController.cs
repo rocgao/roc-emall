@@ -16,9 +16,13 @@ namespace Roc.EMall.WebApi.Controllers
         }
 
         [HttpPost("{transactionId}")]
-        public async ValueTask PayAsync(long transactionId)
+        public async ValueTask<IActionResult> PayAsync(long transactionId)
         {
             await _completePaymentAppService.CompleteAsync(transactionId);
+            return Ok(new
+            {
+                Code = "success",
+            });
         }
     }
 }

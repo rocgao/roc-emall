@@ -13,10 +13,11 @@ namespace Roc.EMall.Domain.OrderContext
             { OrderStatus.Packaged, new PackedStatusHandler() },
             { OrderStatus.Delivered, new DeliveredStatusHandler() },
             { OrderStatus.Signed, new SignedStatusHandler() },
+            { OrderStatus.Canceled, new CanceledStatusHandler() },
         };
 
         public Order(long orderId, string owner, RecipientInfo recipient, decimal amount, LineItem[] items,
-            OrderStatus? status = null, PaymentInfo payment = null, ExpressInfo express = null)
+            OrderStatus? status = null, PaymentInfo payment = null, ExpressInfo express = null, DateTime? canceledTime = null)
         {
             OrderId = orderId;
             Owner = owner;
@@ -26,6 +27,7 @@ namespace Roc.EMall.Domain.OrderContext
             Express = express ?? new ExpressInfo(null, string.Empty);
             Items = items;
             Payment = payment ?? new PaymentInfo(null, null);
+            CanceledTime = canceledTime;
         }
 
         public long OrderId { get; }
@@ -36,10 +38,13 @@ namespace Roc.EMall.Domain.OrderContext
         public OrderStatus? Status { get; private set; }
         public ExpressInfo Express { get; private set; }
         public PaymentInfo Payment { get; private set; }
+        public DateTime? CanceledTime { get; private set; }
 
         public NewOrderEvent GetNewOrderEvent(long eventId) => new NewOrderEvent(eventId, OrderId);
 
         public OrderPaidEvent GetOrderPaidEvent(long eventId) => new OrderPaidEvent(eventId, OrderId);
+
+        public OrderCanceledEvent GetOrderCanceledEvent(long eventId) => new OrderCanceledEvent(eventId, OrderId);
 
         public void ChangeStatus(OrderStatus status)
         {
@@ -89,9 +94,14 @@ namespace Roc.EMall.Domain.OrderContext
             Express = Express with { ExpressNo = expressNo };
         }
 
-        public void Sign(DateTime signingTime)
+        public void Sign()
         {
             ChangeStatus(OrderStatus.Signed);
+        }
+
+        public void Cancel()
+        {
+            ChangeStatus(OrderStatus.Canceled);
         }
     }
 }

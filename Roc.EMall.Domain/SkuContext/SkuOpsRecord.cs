@@ -8,6 +8,9 @@ namespace Roc.EMall.Domain.SkuContext
         // 已使用的
         Used,
         
+        // 取消的
+        Canceled,
+        
         // 入库 
         In,
     }

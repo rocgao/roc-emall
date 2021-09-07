@@ -8,11 +8,11 @@ Content-Type: application/json
   "items": [
     {
       "goodsId": 1,
-      "quantity": 1
+      "quantity": 3
     },
     {
       "goodsId": 2,
-      "quantity": 2
+      "quantity": 1
     }
   ]
 }
@@ -20,7 +20,7 @@ Content-Type: application/json
 ###
 
 # 发起付款
-GET {{host}}/orders/1435123910076141568/payment
+GET {{host}}/orders/{{orderId}}/payment
 
 ###
 
@@ -30,12 +30,12 @@ POST {{host}}/payments/1435172442178981888
 ###
 
 # 订单打包
-POST {{host}}/packages?orderId=1435123910076141568
+POST {{host}}/packages?orderId={{orderId}}
 
 ###
 
 # 订单发货
-PUT {{host}}/packages/1435176008885080064/delivering
+PUT {{host}}/packages/{{packageId}}/delivering
 Content-Type: application/json
 
 {
@@ -45,7 +45,13 @@ Content-Type: application/json
 ###
 
 # 订单签收
-PUT {{host}}/packages/1435176008885080064/signing
+PUT {{host}}/packages/{{packageId}}/signing
+Content-Type: application/json
+
+###
+
+# 订单取消
+DELETE {{host}}/orders/{{orderId}}
 Content-Type: application/json
 
 ###

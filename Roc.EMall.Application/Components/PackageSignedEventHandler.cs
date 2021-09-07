@@ -21,7 +21,7 @@ namespace Roc.EMall.Application.Components
         protected override async Task InternalHandle(PackageSignedEvent notification, CancellationToken cancellationToken)
         {
             var order = await _orderQueryRepository.GetAsync(notification.OrderId)??throw new ArgumentNullException($"订单不存在！orderId:{notification.OrderId}");
-            order.Sign(notification.SigningTime);
+            order.Sign();
             
             // 持久化数据
             using var uow = _uowFactory.Create();

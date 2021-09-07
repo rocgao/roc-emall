@@ -10,11 +10,13 @@ namespace Roc.EMall.WebApi.Controllers
     {
         private readonly ISubmitOrderAppService _submitOrderAppService;
         private readonly IInitiatePaymentAppService _initiatePaymentAppService;
+        private readonly ICancelOrderAppService _cancelOrderAppService;
 
-        public OrderController(ISubmitOrderAppService submitOrderAppService,IInitiatePaymentAppService initiatePaymentAppService)
+        public OrderController(ISubmitOrderAppService submitOrderAppService,IInitiatePaymentAppService initiatePaymentAppService,ICancelOrderAppService cancelOrderAppService)
         {
             _submitOrderAppService = submitOrderAppService;
             _initiatePaymentAppService = initiatePaymentAppService;
+            _cancelOrderAppService = cancelOrderAppService;
         }
         
         /// <summary>
@@ -43,11 +45,15 @@ namespace Roc.EMall.WebApi.Controllers
             });
         }
 
-        // [HttpPut("{orderId}/status")]
-        // public ValueTask<IActionResult> ChangeStatus([FromRoute] long orderId, [FromQuery] string targetStatus)
-        // {
-        //     throw New
-        // }
+        [HttpDelete("{orderId}")]
+        public async ValueTask<IActionResult> Cancel([FromRoute] long orderId)
+        {
+            await _cancelOrderAppService.CancelAsync(orderId);
+            return Ok(new
+            {
+                Code = "success",
+            });
+        }
         
     }
 }

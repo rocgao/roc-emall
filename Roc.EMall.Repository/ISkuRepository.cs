@@ -9,5 +9,7 @@ namespace Roc.EMall.Repository
         ValueTask<bool> OccupyAsync(long skuId,long orderId, int quantity,string @operator);
 
         ValueTask<bool> UseAsync(long orderId, string @operator);
+
+        ValueTask<bool> UndoOccupyingAsync(long orderId, string @operator);
     }
 }

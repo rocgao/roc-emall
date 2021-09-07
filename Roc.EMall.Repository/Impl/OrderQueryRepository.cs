@@ -48,7 +48,8 @@ namespace Roc.EMall.Repository.Impl
             }
             return new Order(entity.order_id, entity.owner_id,
                 new RecipientInfo(entity.recipient_name, entity.recipient_phone, entity.recipient_address), entity.amount, orderLineItems,
-                orderStatus,new PaymentInfo(entity.transaction_id,entity.paid_time),new ExpressInfo(entity.package_id,entity.express_no));
+                orderStatus,new PaymentInfo(entity.transaction_id,entity.paid_time),new ExpressInfo(entity.package_id,entity.express_no),
+                entity.canceled_time);
         }
     }
 }

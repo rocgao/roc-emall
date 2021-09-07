@@ -40,7 +40,8 @@ namespace Roc.EMall.Repository.Impl
         const string updateOrderSql = @"update `order` set `con_version`=`con_version` + 1,
                    `status`=@Status,
                    `transaction_id`=@TransactionId,paid_time=@PaidTime,
-                   `package_id`=@PackageId,`express_no`=@ExpressNo
+                   `package_id`=@PackageId,`express_no`=@ExpressNo,
+                   `canceled_time`=@CanceledTime
                 where `order_id`=@OrderId AND `con_version`=@ConVersion";
         private async ValueTask UpdateAsync(Order order, int conVersion)
         {
@@ -48,6 +49,7 @@ namespace Roc.EMall.Repository.Impl
                 Status=order.Status.ToString(),
                 order.Payment.TransactionId,order.Payment.PaidTime,
                 order.Express.PackageId,order.Express.ExpressNo,
+                order.CanceledTime,
             },Transaction);
         }
     }
