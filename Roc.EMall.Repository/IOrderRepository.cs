@@ -5,6 +5,7 @@ namespace Roc.EMall.Repository
 {
     public interface IOrderRepository:IRepository
     {
+        ValueTask<Order> GetAsync(long orderId);
         ValueTask StoreAsync(Order order);
     }
 }

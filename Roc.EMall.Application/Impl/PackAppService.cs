@@ -41,7 +41,7 @@ namespace Roc.EMall.Application.Impl
                 var item = order.Items[i];
                 lineItems[i] = new PackageLineItem(packageId, i + 1, item.GoodsId, item.GoodsName, item.Quantity);
             }
-            var package = new Package(packageId, order.OrderId, order.Recipient.Name, order.Recipient.PhoneNumber, order.Recipient.Address,lineItems);
+            var package = new Package(packageId, order.Id, order.Recipient.Name, order.Recipient.PhoneNumber, order.Recipient.Address,lineItems);
 
             // 持久化数据
             using var uow = _uowFactory.Create();

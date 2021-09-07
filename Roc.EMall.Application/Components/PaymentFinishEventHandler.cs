@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -9,41 +10,41 @@ namespace Roc.EMall.Application.Components
 {
     class PaymentFinishEventHandler : HandlerBase<PaymentFinishEvent>
     {
-        private readonly ILogger<PaymentFinishEventHandler> _logger;
         private readonly IUOWFactory _uowFactory;
-        private readonly IOrderQueryRepository _queryRepository;
         private readonly IdWorker _idWorker;
         private readonly IDomainEventPublisher _eventPublisher;
 
-        public PaymentFinishEventHandler(ILogger<PaymentFinishEventHandler> logger, IUOWFactory uowFactory, 
-            IOrderQueryRepository queryRepository,
+        public PaymentFinishEventHandler(ILogger<PaymentFinishEventHandler> logger, IUOWFactory uowFactory,
             IdWorker idWorker,
             IDomainEventPublisher eventPublisher)
             : base(logger)
         {
-            _logger = logger;
             _uowFactory = uowFactory;
-            _queryRepository = queryRepository;
             _idWorker = idWorker;
             _eventPublisher = eventPublisher;
         }
 
         protected override async Task InternalHandle(PaymentFinishEvent notification, CancellationToken cancellationToken)
         {
-            var order = await _queryRepository.GetAsync(notification.OrderId);
-            if (order == null)
-            {
-                _logger.LogInformation($"不存在订单！OrderId:{notification.OrderId}");
-                return;
-            }
-
-            order.CompletePayment(notification.PaidTime);
-
             using var uow = _uowFactory.Create();
             var repo = uow.CreateRepository<IOrderRepository>();
-            var skuRepo = uow.CreateRepository<ISkuRepository>();
+            
+            // 完成付款
+            var order = await repo.GetAsync(notification.OrderId)??throw new ArgumentNullException($"订单不存在！orderId:{notification.OrderId}");
+            order.CompletePayment(notification.PaidTime);
             await repo.StoreAsync(order);
-            await skuRepo.UseAsync(order.OrderId, "handler");
+
+            // 扣减库存
+            var skuRepo = uow.CreateRepository<ISkuRepository>();
+            foreach (var orderItem in order.Items)
+            {
+                var sku = await skuRepo.GetAsync(orderItem.GoodsId, new ISkuRepository.LoadOpsRecordOption(order.Id));
+                sku.Use(order.Id,orderItem.Quantity,"handler");
+
+                await skuRepo.StoreAsync(sku);
+            }
+            
+            // 提交事务
             uow.Commit();
             
             // 发布领域事件

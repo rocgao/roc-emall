@@ -1,3 +1,248 @@
+DELETE http://localhost:9611/api/orders/1435809050372739072
+Content-Type: application/json
+
+<> 2021-09-09T113616.200.json
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc11",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 3
+    },
+    {
+      "goodsId": 2,
+      "quantity": 3
+    }
+  ]
+}
+
+<> 2021-09-09T113528.200.json
+
+###
+
+PUT http://localhost:9611/api/packages/1435808522272116736/signing
+Content-Type: application/json
+
+<> 2021-09-09T113416.200.json
+
+###
+
+PUT http://localhost:9611/api/packages/1435808522272116736/delivering
+Content-Type: application/json
+
+{
+  "expressNo": "312323123"
+}
+
+<> 2021-09-09T113352.200.json
+
+###
+
+POST http://localhost:9611/api/packages?orderId=1435808186253840384
+
+<> 2021-09-09T113322.200.json
+
+###
+
+POST http://localhost:9611/api/payments/1435808300930306048
+
+<> 2021-09-09T113308.200.json
+
+###
+
+GET http://localhost:9611/api/orders/1435808186253840384/payment
+
+<> 2021-09-09T113229.200.json
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc11",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 2
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-09T113202.200.json
+
+###
+
+PUT http://localhost:9611/api/packages/1435800864186044416/signing
+Content-Type: application/json
+
+<> 2021-09-09T111301.200.json
+
+###
+
+PUT http://localhost:9611/api/packages/1435800864186044416/delivering
+Content-Type: application/json
+
+{
+  "expressNo": "312323123"
+}
+
+<> 2021-09-09T111229.200.json
+
+###
+
+PUT http://localhost:9611/api/packages/1435800864186044416/delivering
+Content-Type: application/json
+
+{
+  "expressNo": "312323123"
+}
+
+<> 2021-09-09T110848.200.json
+
+###
+
+PUT http://localhost:9611/api/packages/1435800864186044416/delivering
+Content-Type: application/json
+
+{
+  "expressNo": "312323123"
+}
+
+<> 2021-09-09T110437.200.json
+
+###
+
+POST http://localhost:9611/api/packages?orderId=1435740880312078336
+
+<> 2021-09-09T110256.200.json
+
+###
+
+POST http://localhost:9611/api/payments/1435794454878490624
+
+<> 2021-09-09T104012.200.json
+
+###
+
+GET http://localhost:9611/api/orders/1435740880312078336/payment
+
+<> 2021-09-09T103945.200.json
+
+###
+
+GET http://localhost:9611/api/orders/1435740880312078336/payment
+
+<> 2021-09-09T103728.200.json
+
+###
+
+GET http://localhost:9611/api/orders/1435740880312078336/payment
+
+<> 2021-09-09T103553.200.json
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc11",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 3
+    },
+    {
+      "goodsId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2021-09-09T070435.200.json
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc11",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 3
+    },
+    {
+      "goodsId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2021-09-09T070326.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc11",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 3
+    },
+    {
+      "goodsId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2021-09-09T070151.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc11",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 3
+    },
+    {
+      "goodsId": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+<> 2021-09-09T070023.500.txt
+
+###
+
 DELETE http://localhost:9611/api/orders/1435209289135427584
 Content-Type: application/json
 
@@ -263,104 +508,6 @@ Content-Type: application/json
 }
 
 <> 2021-09-06T202926.500.txt
-
-###
-
-POST http://localhost:9611/api/packages?orderId=1434534943584817152
-
-<> 2021-09-06T192335.200.json
-
-###
-
-POST http://localhost:9611/api/packages?orderId=1434534943584817152
-
-<> 2021-09-06T175944.200.json
-
-###
-
-POST http://localhost:9611/api/packages?orderId=1434534943584817152
-
-<> 2021-09-06T175916.500.txt
-
-###
-
-POST http://localhost:9611/api/packages?orderId=1434534943584817152
-
-<> 2021-09-06T175825.500.txt
-
-###
-
-POST http://localhost:9611/api/packages?orderId=1434534943584817152
-
-<> 2021-09-06T175757.500.txt
-
-###
-
-POST http://localhost:9611/api/packages?orderId=1434534943584817152
-
-<> 2021-09-06T175735.500.txt
-
-###
-
-POST http://localhost:9611/api/packages?orderId=1434534943584817152
-
-<> 2021-09-06T175411.500.txt
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
-
-###
-
-POST http://localhost:9611/api/payments/1434751300108685312
 
 ###
 

@@ -3,7 +3,7 @@ POST {{host}}/orders
 Content-Type: application/json
 
 {
-  "ownerId": "roc",
+  "ownerId": "roc11",
   "recipientId": "1234567",
   "items": [
     {
@@ -12,7 +12,7 @@ Content-Type: application/json
     },
     {
       "goodsId": 2,
-      "quantity": 1
+      "quantity": 3
     }
   ]
 }
@@ -25,7 +25,7 @@ GET {{host}}/orders/{{orderId}}/payment
 ###
 
 # 付款成功
-POST {{host}}/payments/1435172442178981888
+POST {{host}}/payments/1435808300930306048
 
 ###
 
@@ -39,7 +39,7 @@ PUT {{host}}/packages/{{packageId}}/delivering
 Content-Type: application/json
 
 {
-  "expressNo": "123456678"
+  "expressNo": "312323123"
 }
 
 ###

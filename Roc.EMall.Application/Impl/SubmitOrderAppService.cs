@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Roc.EMall.Domain.Event;
@@ -61,11 +62,9 @@ namespace Roc.EMall.Application.Impl
             var skuRepo = uow.CreateRepository<ISkuRepository>();
             foreach (var dtoItem in dto.items)
             {
-                var success = await skuRepo.OccupyAsync(dtoItem.GoodsId, order.OrderId, dtoItem.Quantity, dto.OwnerId);
-                if (!success)
-                {
-                    throw new SkuOccupationException($"锁定库存失败！SkuId:{dtoItem.GoodsId} Quantity:{dtoItem.Quantity}");
-                }
+                var sku = await skuRepo.GetAsync(dtoItem.GoodsId)??throw new ArgumentNullException($"库存记录不存在！skuId:{dtoItem.GoodsId}");
+                sku.Occupy(order.Id, dtoItem.Quantity, dto.OwnerId);
+                await skuRepo.StoreAsync(sku);
             }
 
             // 保存订单
@@ -78,7 +77,7 @@ namespace Roc.EMall.Application.Impl
             // 发布领域事件
             await _eventPublisher.PublishAsync(order.GetNewOrderEvent(_idWorker.NextId()));
 
-            return order.OrderId;
+            return order.Id;
         }
     }
 }

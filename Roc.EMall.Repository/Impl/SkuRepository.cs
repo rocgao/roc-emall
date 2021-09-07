@@ -1,22 +1,58 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Roc.EMall.Domain.SkuContext;
+using Roc.EMall.Infra;
 
 namespace Roc.EMall.Repository.Impl
 {
     class SkuRepository : RepositoryBase, ISkuRepository
     {
-        public ValueTask StoreAsync(Sku[] skuArray)
+        
+        public async ValueTask<Sku> GetAsync(long skuId,ISkuRepository.LoadOpsRecordOption loadOpsRecordOpt=null)
         {
-            throw new System.NotImplementedException();
+            var entity = await Database.QueryFirstOrDefaultAsync("SELECT * FROM `sku` WHERE `id`=@skuId",new{skuId},Transaction);
+            if (entity == null)
+            {
+                return null;
+            }
 
-            // foreach (var sku in skuArray)
-            // {
-            //     var updateSql = "update `sku` set `available`=@Available,`occupied`=@Occupied where `id`=@SkuId";
-            //     var affectedRow= await Database.ExecuteAsync(updateSql, sku);
-            // }
+            IEnumerable<SkuOpsRecord> opsRecords=null;
+            if (loadOpsRecordOpt!=null)
+            {
+                var opsRecordEntities = await Database.QueryAsync("SELECT * FROM `sku_ops_record` WHERE `sku_id`=@skuId AND `order_id`=@orderId",
+                    new { skuId, orderId = loadOpsRecordOpt.OrderId });
+                opsRecords = opsRecordEntities.Select(it => new SkuOpsRecord(it.sku_id, it.order_id,
+                    it.quantity, it.@operator, Enum.Parse<SkuOpsKind>(it.operation_kind)));
+            }
+            return new Sku(entity.id, entity.name, entity.available, entity.balance, entity.occupied, entity.used,opsRecords){ConVersion = entity.con_version};
+        }
+
+        private const string UpdateSkuSql = @"update `sku` set `con_version`=`con_version`+1,
+                 `available`=@Available,`balance`=@Balance,`occupied`=@Occupied,`used`=@Used 
+                 where `Id`=@Id AND `con_version`=@ConVersion";
+
+        private const string InsertSkuOpsSql = @"insert into `sku_ops_record` 
+        (`sku_id`,`quantity`,`order_id`,`operator`,`operation_kind`,`created_at`) 
+        value(@SkuId,@Quantity,@OrderId,@Operator,@OpsKind,@CreatedAt)";
+        public async ValueTask StoreAsync(Sku sku)
+        {
+            var affectedRows = await Database.ExecuteAsync(UpdateSkuSql, sku,Transaction);
+            if (affectedRows != 1)
+            {
+                throw new ConcurrencyUpdateException();
+            }
+
+            if (sku.OpsRecords.Count == 0)
+            {
+                return;
+            }
+
+            var opsRecords = sku.OpsRecords.Added.Select(it =>
+                new { it.SkuId, it.Operator, it.Quantity, OpsKind = it.OpsKind.ToString(),it.OrderId,CreatedAt=DateTime.Now });
+            await Database.ExecuteAsync(InsertSkuOpsSql, opsRecords,Transaction);
         }
 
         public async ValueTask<bool> OccupyAsync(long skuId, long orderId, int quantity, string @operator)

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using Roc.EMall.Domain.Event;
 
 namespace Roc.EMall.Domain.OrderContext
 {
-    public partial class Order
+    public partial class Order:AggregatedRoot
     {
         private static readonly Dictionary<OrderStatus, IOrderStatusHandler> statusHandlers = new()
         {
@@ -16,10 +17,9 @@ namespace Roc.EMall.Domain.OrderContext
             { OrderStatus.Canceled, new CanceledStatusHandler() },
         };
 
-        public Order(long orderId, string owner, RecipientInfo recipient, decimal amount, LineItem[] items,
-            OrderStatus? status = null, PaymentInfo payment = null, ExpressInfo express = null, DateTime? canceledTime = null)
+        public Order(long id, string owner, RecipientInfo recipient, decimal amount, LineItem[] items,
+            OrderStatus? status = null, PaymentInfo payment = null, ExpressInfo express = null, DateTime? canceledTime = null):base(id)
         {
-            OrderId = orderId;
             Owner = owner;
             Recipient = recipient;
             Amount = amount;
@@ -30,7 +30,6 @@ namespace Roc.EMall.Domain.OrderContext
             CanceledTime = canceledTime;
         }
 
-        public long OrderId { get; }
         public string Owner { get; }
         public RecipientInfo Recipient { get; }
         public decimal Amount { get; }
@@ -40,11 +39,11 @@ namespace Roc.EMall.Domain.OrderContext
         public PaymentInfo Payment { get; private set; }
         public DateTime? CanceledTime { get; private set; }
 
-        public NewOrderEvent GetNewOrderEvent(long eventId) => new NewOrderEvent(eventId, OrderId);
+        public NewOrderEvent GetNewOrderEvent(long eventId) => new NewOrderEvent(eventId, Id);
 
-        public OrderPaidEvent GetOrderPaidEvent(long eventId) => new OrderPaidEvent(eventId, OrderId);
+        public OrderPaidEvent GetOrderPaidEvent(long eventId) => new OrderPaidEvent(eventId, Id);
 
-        public OrderCanceledEvent GetOrderCanceledEvent(long eventId) => new OrderCanceledEvent(eventId, OrderId);
+        public OrderCanceledEvent GetOrderCanceledEvent(long eventId) => new OrderCanceledEvent(eventId, Id);
 
         public void ChangeStatus(OrderStatus status)
         {
@@ -62,14 +61,20 @@ namespace Roc.EMall.Domain.OrderContext
         /// </summary>
         /// <param name="transactionId">交易编号</param>
         /// <exception cref="InvalidOperationException"></exception>
-        public void InitiatePayment(long transactionId)
+        public (bool ok,long currTransactionId) TryInitiatePayment(long transactionId)
         {
             if (Status != OrderStatus.Submitted)
             {
                 throw new InvalidOperationException($"订单状态不正确！Status:{Status.ToString()}");
             }
 
+            if (Payment.TransactionId.HasValue)
+            {
+                return (false,Payment.TransactionId.Value);
+            }
+
             Payment = Payment with { TransactionId = transactionId };
+            return (true, transactionId);
         }
 
         /// <summary>

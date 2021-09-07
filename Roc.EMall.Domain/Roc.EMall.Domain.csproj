@@ -10,4 +10,8 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Roc.EMall.Infra\Roc.EMall.Infra.csproj" />
+    </ItemGroup>
+
 </Project>

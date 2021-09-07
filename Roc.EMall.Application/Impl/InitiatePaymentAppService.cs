@@ -8,44 +8,38 @@ namespace Roc.EMall.Application.Impl
 {
     class InitiatePaymentAppService:IInitiatePaymentAppService
     {
-        private readonly IOrderQueryRepository _orderQueryRepository;
         private readonly IdWorker _idWorker;
-        private readonly ITransactionQueryRepository _transactionQueryRepository;
         private readonly IUOWFactory _uowFactory;
 
-        public InitiatePaymentAppService(IOrderQueryRepository orderQueryRepository,IdWorker idWorker,ITransactionQueryRepository transactionQueryRepository,IUOWFactory uowFactory)
+        public InitiatePaymentAppService(IdWorker idWorker,IUOWFactory uowFactory)
         {
-            _orderQueryRepository = orderQueryRepository;
             _idWorker = idWorker;
-            _transactionQueryRepository = transactionQueryRepository;
             _uowFactory = uowFactory;
         }
 
         public async ValueTask<long> InitiateAsync(long orderId)
         {
-            var order = await _orderQueryRepository.GetAsync(orderId)??throw new ArgumentNullException($"订单不存在！orderId:{orderId}");
-            var existingTransaction= await _transactionQueryRepository.GetByOrderIdAsync(order.OrderId);
-            if (existingTransaction != null)
-            {
-                return existingTransaction.Id;
-            }
+            using var uow = _uowFactory.Create();
+            var orderRepository = uow.CreateRepository<IOrderRepository>();
 
-            var paymentTransaction = new PaymentTransaction(_idWorker.NextId())
+            //  更新订单信息
+            var order = await orderRepository.GetAsync(orderId)??throw new ArgumentNullException($"订单不存在！orderId:{orderId}");
+            var transactionId = _idWorker.NextId();
+            var (ok,currTransactionId)=order.TryInitiatePayment(transactionId);
+            if (!ok)
             {
-                OrderId = order.OrderId,
+                return currTransactionId;
+            }
+            await orderRepository.StoreAsync(order);
+
+            // 存储交易记录
+            var transactionRepository = uow.CreateRepository<ITransactionRepository>();
+            var paymentTransaction = new PaymentTransaction(transactionId)
+            {
+                OrderId = order.Id,
                 Amount = order.Amount
             };
-            
-            order.InitiatePayment(paymentTransaction.Id);
-
-            // 数据持久化
-            using var uow = _uowFactory.Create();
-            
-            var transactionRepository = uow.CreateRepository<ITransactionRepository>();
             await transactionRepository.StoreAsync(paymentTransaction);
-
-            var orderRepository = uow.CreateRepository<IOrderRepository>();
-            await orderRepository.StoreAsync(order);
             
             // 提交事务
             uow.Commit();
