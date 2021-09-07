@@ -39,18 +39,16 @@ namespace Roc.EMall.Repository.Impl
         private async ValueTask<Order> LoadOrderAsync(dynamic entity)
         {
             var entityItems = await Database.QueryAsync("select * from `order_line_item` where `order_id`=@orderId", new { orderId=entity.order_id });
-            var orderLineItems= entityItems.Select(it => new LineItem(it.goods_id, it.quantity, it.amount)).ToArray();
+            var orderLineItems= entityItems.Select(it => new LineItem(it.goods_id,it.goods_name, it.quantity, it.amount)).ToArray();
 
             OrderStatus? orderStatus = null;
             if (Enum.TryParse<OrderStatus>(entity.status, true, out OrderStatus status))
             {
                 orderStatus = status;
             }
-            return new Order(entity.order_id, new OwnerInfo(entity.owner_id),
-                new RecipientInfo(entity.recipient_name, entity.recipient_phone, entity.recipient_address), entity.amount,orderStatus, orderLineItems)
-            {
-                TransactionId = entity.transaction_id,
-            };
+            return new Order(entity.order_id, entity.owner_id,
+                new RecipientInfo(entity.recipient_name, entity.recipient_phone, entity.recipient_address), entity.amount, orderLineItems,
+                orderStatus,new PaymentInfo(entity.transaction_id,entity.paid_time),new ExpressInfo(entity.package_id,entity.express_no));
         }
     }
 }

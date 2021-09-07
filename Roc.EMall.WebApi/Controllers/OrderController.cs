@@ -9,12 +9,12 @@ namespace Roc.EMall.WebApi.Controllers
     public class OrderController : ControllerBase
     {
         private readonly ISubmitOrderAppService _submitOrderAppService;
-        private readonly IPayOrderAppService _payOrderAppService;
+        private readonly IInitiatePaymentAppService _initiatePaymentAppService;
 
-        public OrderController(ISubmitOrderAppService submitOrderAppService,IPayOrderAppService payOrderAppService)
+        public OrderController(ISubmitOrderAppService submitOrderAppService,IInitiatePaymentAppService initiatePaymentAppService)
         {
             _submitOrderAppService = submitOrderAppService;
-            _payOrderAppService = payOrderAppService;
+            _initiatePaymentAppService = initiatePaymentAppService;
         }
         
         /// <summary>
@@ -33,9 +33,9 @@ namespace Roc.EMall.WebApi.Controllers
         }
 
         [HttpGet("{orderId}/payment")]
-        public async ValueTask<IActionResult> Pay([FromRoute] long orderId)
+        public async ValueTask<IActionResult> InitiatePayment([FromRoute] long orderId)
         {
-            var transactionId = await _payOrderAppService.PayAsync(orderId);
+            var transactionId = await _initiatePaymentAppService.InitiateAsync(orderId);
             return Ok(new
             {
                 Code = "success",

@@ -10,7 +10,7 @@ namespace Roc.EMall.Domain.PaymentContext
             Id = id;
         }
         public long Id { get; }
-        public string BusinessId { get; set; }
+        public long OrderId { get; set; }
         public decimal Amount { get; set; }
         public bool IsPaid { get; set; }
         public DateTime? PaidTime { get; set; }
@@ -34,6 +34,6 @@ namespace Roc.EMall.Domain.PaymentContext
             PaidTime=DateTime.Now;
         }
 
-        public PaymentFinishEvent CreatePaymentFinishEvent() => new PaymentFinishEvent(Id, Id, BusinessId);
+        public PaymentFinishEvent CreatePaymentFinishEvent(long eventId) => new(eventId, Id, OrderId,PaidTime??DateTime.MinValue);
     }
 }

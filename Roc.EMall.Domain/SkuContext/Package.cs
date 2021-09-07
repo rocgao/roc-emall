@@ -10,7 +10,7 @@ namespace Roc.EMall.Domain.SkuContext
         public string RecipientName { get; }
         public string RecipientPhone { get; }
         public string RecipientAddress { get; }
-        public (long goodsId, int quantity)[] Items { get; }
+        public PackageLineItem[] Items { get; }
 
         public bool IsDelivered { get; private set; }
         public DateTime? DeliveringTime { get; private set; }
@@ -18,9 +18,9 @@ namespace Roc.EMall.Domain.SkuContext
         public bool IsSigned { get; private set; }
         public DateTime? SigningTime { get; private set; }
 
-        public Package(long id,long orderId, string recipientName, string recipientPhone, string recipientAddress, (long goodsId, int quantity)[] items,
-            bool isDelivered=false,DateTime? deliveringTime=null,string expressNo=null,
-            bool isSigned=false,DateTime? signingTime=null)
+        public Package(long id, long orderId, string recipientName, string recipientPhone, string recipientAddress, PackageLineItem[] items,
+            bool isDelivered = false, DateTime? deliveringTime = null, string expressNo = null,
+            bool isSigned = false, DateTime? signingTime = null)
         {
             Id = id;
             OrderId = orderId;
@@ -35,7 +35,7 @@ namespace Roc.EMall.Domain.SkuContext
             SigningTime = signingTime;
         }
 
-        public OrderPackedEvent GetOrderPackedEvent(long eventId) => new OrderPackedEvent(eventId, OrderId);
+        public OrderPackedEvent GetOrderPackedEvent(long eventId) => new(eventId, Id,OrderId);
 
         public void Deliver(string expressNo)
         {
@@ -45,11 +45,11 @@ namespace Roc.EMall.Domain.SkuContext
             }
 
             IsDelivered = true;
-            DeliveringTime=DateTime.Now;
+            DeliveringTime = DateTime.Now;
             ExpressNo = expressNo;
         }
 
-        public PackageDeliveredEvent GetDeliveredEvent(long eventId) => new PackageDeliveredEvent(eventId, OrderId,ExpressNo);
+        public PackageDeliveredEvent GetDeliveredEvent(long eventId) => new(eventId, OrderId, ExpressNo);
 
         public void Sign()
         {
@@ -66,8 +66,9 @@ namespace Roc.EMall.Domain.SkuContext
             IsSigned = true;
             SigningTime = DateTime.Now;
         }
-        
-        public PackageSignedEvent GetSignedEvent(long eventId) => new PackageSignedEvent(eventId, OrderId,SigningTime.Value);
 
+        public PackageSignedEvent GetSignedEvent(long eventId) => new(eventId, OrderId, SigningTime.Value);
     }
+
+    public record PackageLineItem(long PackageId, int Id, long GoodsId, string GoodsName, int GoodsQuantity);
 }

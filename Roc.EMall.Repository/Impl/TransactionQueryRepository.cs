@@ -12,9 +12,9 @@ namespace Roc.EMall.Repository.Impl
         {
         }
 
-        public async ValueTask<PaymentTransaction> GetByBusinessIdAsync(string businessId)
+        public async ValueTask<PaymentTransaction> GetByOrderIdAsync(long orderId)
         {
-            var entry = await Database.QueryFirstOrDefaultAsync("select * from `payment_transaction` where `business_id`=@businessId", new { businessId });
+            var entry = await Database.QueryFirstOrDefaultAsync("select * from `payment_transaction` where `order_id`=@orderId", new { orderId });
             if (entry == null)
             {
                 return null;
@@ -22,7 +22,7 @@ namespace Roc.EMall.Repository.Impl
 
             return new PaymentTransaction(entry.id)
             {
-                BusinessId = entry.business_id,
+                OrderId = entry.order_id,
                 Amount = entry.amount,
                 CreatedAt = entry.created_at,
                 IsPaid = entry.is_paid != 0,

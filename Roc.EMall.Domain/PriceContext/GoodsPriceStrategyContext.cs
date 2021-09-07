@@ -11,7 +11,6 @@ namespace Roc.EMall.Domain.PriceContext
         {
             Quantity = quantity;
         }
-        
         public decimal Amount { get; set; }
         public int Quantity { get; }
     }

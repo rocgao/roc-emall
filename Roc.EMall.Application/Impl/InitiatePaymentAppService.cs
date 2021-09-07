@@ -6,14 +6,14 @@ using Snowflake.Core;
 
 namespace Roc.EMall.Application.Impl
 {
-    class PayOrderAppService:IPayOrderAppService
+    class InitiatePaymentAppService:IInitiatePaymentAppService
     {
         private readonly IOrderQueryRepository _orderQueryRepository;
         private readonly IdWorker _idWorker;
         private readonly ITransactionQueryRepository _transactionQueryRepository;
         private readonly IUOWFactory _uowFactory;
 
-        public PayOrderAppService(IOrderQueryRepository orderQueryRepository,IdWorker idWorker,ITransactionQueryRepository transactionQueryRepository,IUOWFactory uowFactory)
+        public InitiatePaymentAppService(IOrderQueryRepository orderQueryRepository,IdWorker idWorker,ITransactionQueryRepository transactionQueryRepository,IUOWFactory uowFactory)
         {
             _orderQueryRepository = orderQueryRepository;
             _idWorker = idWorker;
@@ -21,10 +21,10 @@ namespace Roc.EMall.Application.Impl
             _uowFactory = uowFactory;
         }
 
-        public async ValueTask<long> PayAsync(long orderId)
+        public async ValueTask<long> InitiateAsync(long orderId)
         {
             var order = await _orderQueryRepository.GetAsync(orderId)??throw new ArgumentNullException($"订单不存在！orderId:{orderId}");
-            var existingTransaction= await _transactionQueryRepository.GetByBusinessIdAsync(order.BusinessId);
+            var existingTransaction= await _transactionQueryRepository.GetByOrderIdAsync(order.OrderId);
             if (existingTransaction != null)
             {
                 return existingTransaction.Id;
@@ -32,12 +32,13 @@ namespace Roc.EMall.Application.Impl
 
             var paymentTransaction = new PaymentTransaction(_idWorker.NextId())
             {
-                BusinessId = order.BusinessId,
+                OrderId = order.OrderId,
                 Amount = order.Amount
             };
             
             order.InitiatePayment(paymentTransaction.Id);
 
+            // 数据持久化
             using var uow = _uowFactory.Create();
             
             var transactionRepository = uow.CreateRepository<ITransactionRepository>();

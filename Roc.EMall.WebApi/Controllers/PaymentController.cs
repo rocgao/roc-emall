@@ -8,17 +8,17 @@ namespace Roc.EMall.WebApi.Controllers
     [Route("/api/payments")]
     public class PaymentController:ControllerBase
     {
-        private readonly IPayAppService _payAppService;
+        private readonly ICompletePaymentAppService _completePaymentAppService;
 
-        public PaymentController(IPayAppService payAppService)
+        public PaymentController(ICompletePaymentAppService completePaymentAppService)
         {
-            _payAppService = payAppService;
+            _completePaymentAppService = completePaymentAppService;
         }
 
         [HttpPost("{transactionId}")]
         public async ValueTask PayAsync(long transactionId)
         {
-            await _payAppService.PayAsync(transactionId);
+            await _completePaymentAppService.CompleteAsync(transactionId);
         }
     }
 }

@@ -6,6 +6,8 @@ namespace Roc.EMall.Repository
     public interface ISkuRepository:IRepository
     {
         ValueTask StoreAsync(Sku[] skuArray);
-        ValueTask<bool> OccupyAsync(long skuId, int quantity, string businessId,string @operator);
+        ValueTask<bool> OccupyAsync(long skuId,long orderId, int quantity,string @operator);
+
+        ValueTask<bool> UseAsync(long orderId, string @operator);
     }
 }

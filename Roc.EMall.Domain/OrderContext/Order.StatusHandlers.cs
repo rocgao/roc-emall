@@ -53,5 +53,31 @@ namespace Roc.EMall.Domain.OrderContext
                 order.Status = OrderStatus.Packaged;
             }
         }
+
+        private class DeliveredStatusHandler : IOrderStatusHandler
+        {
+            public void Handle(Order order)
+            {
+                if (order.Status is OrderStatus.Canceled)
+                {
+                    throw new InvalidOperationException("订单已取消");
+                }
+                
+                order.Status = OrderStatus.Delivered;
+            }
+        }
+        
+        private class SignedStatusHandler : IOrderStatusHandler
+        {
+            public void Handle(Order order)
+            {
+                if (order.Status is OrderStatus.Canceled)
+                {
+                    throw new InvalidOperationException("订单已取消");
+                }
+                
+                order.Status = OrderStatus.Signed;
+            }
+        }
     }
 }

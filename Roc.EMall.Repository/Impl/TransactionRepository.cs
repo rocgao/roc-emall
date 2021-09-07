@@ -17,7 +17,7 @@ namespace Roc.EMall.Repository.Impl
             
             return new PaymentTransaction(entry.id)
             {
-                BusinessId = entry.business_id,
+                OrderId = entry.order_id,
                 Amount = entry.amount,
                 CreatedAt = entry.created_at,
                 IsPaid = entry.is_paid != 0,
@@ -29,8 +29,8 @@ namespace Roc.EMall.Repository.Impl
 
         public async ValueTask StoreAsync(PaymentTransaction model)
         {
-            var insertTransactionSql = @"insert into `payment_transaction` (`id`,`business_id`,`amount`,`created_at`) 
-                 values(@Id,@BusinessId,@Amount,@CreatedAt)";
+            var insertTransactionSql = @"insert into `payment_transaction` (`id`,`order_id`,`amount`,`created_at`) 
+                 values(@Id,@OrderId,@Amount,@CreatedAt)";
             var updateTransactionSql = @"update `payment_transaction` set `con_version`=`con_version`+1,`is_paid`=@IsPaid,`paid_time`=@PaidTime,
                                  `is_canceled`=@IsCanceled,`canceled_time`=@CanceledTime 
                  where `id`=@Id AND `con_version`=@ConVersion";
@@ -38,7 +38,7 @@ namespace Roc.EMall.Repository.Impl
             var existing = await Database.QueryFirstOrDefaultAsync("SELECT * FROM `payment_transaction` WHERE `id`=@Id", model, transaction: Transaction);
             if (existing == null)
             {
-                await Database.ExecuteAsync(insertTransactionSql, new { model.Id, model.BusinessId, model.Amount, CreatedAt = DateTime.Now });
+                await Database.ExecuteAsync(insertTransactionSql, new { model.Id, model.OrderId, model.Amount, CreatedAt = DateTime.Now });
             }
             else
             {

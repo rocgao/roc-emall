@@ -20,7 +20,7 @@ namespace Roc.EMall.Domain.OrderContext
         /// <summary>
         /// 已发货
         /// </summary>
-        Sent,
+        Delivered,
         
         /// <summary>
         /// 已签收

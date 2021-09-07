@@ -1,3 +1,185 @@
+PUT http://localhost:9611/api/packages/1435176008885080064/signing
+Content-Type: application/json
+
+<> 2021-09-07T175357.200.json
+
+###
+
+PUT http://localhost:9611/api/packages/1435176008885080064/delivering
+Content-Type: application/json
+
+{
+  "expressNo": "123456678"
+}
+
+<> 2021-09-07T175253.200.json
+
+###
+
+POST http://localhost:9611/api/packages?orderId=1435123910076141568
+
+<> 2021-09-07T174659.200.json
+
+###
+
+POST http://localhost:9611/api/packages?orderId=1435123910076141568
+
+<> 2021-09-07T174637.200.json
+
+###
+
+POST http://localhost:9611/api/packages?orderId=1435123910076141568
+
+<> 2021-09-07T174527.200.json
+
+###
+
+POST http://localhost:9611/api/packages?orderId=1435123910076141568
+
+<> 2021-09-07T174417.500.txt
+
+###
+
+POST http://localhost:9611/api/packages?orderId=1435123910076141568
+
+<> 2021-09-07T173959.200.json
+
+###
+
+POST http://localhost:9611/api/packages?orderId=1435123910076141568
+
+<> 2021-09-07T173614.200.json
+
+###
+
+POST http://localhost:9611/api/packages?orderId=1435123910076141568
+
+<> 2021-09-07T173446.500.txt
+
+###
+
+POST http://localhost:9611/api/payments/1435172442178981888
+
+###
+
+POST http://localhost:9611/api/payments/1435172442178981888
+
+###
+
+POST http://localhost:9611/api/payments/1435172442178981888
+
+###
+
+POST http://localhost:9611/api/payments/1435172442178981888
+
+###
+
+POST http://localhost:9611/api/payments/1435172442178981888
+
+<> 2021-09-07T172740.500.txt
+
+###
+
+POST http://localhost:9611/api/payments/1435123910076141568
+
+<> 2021-09-07T172710.500.txt
+
+###
+
+GET http://localhost:9611/api/orders/1435123910076141568/payment
+
+<> 2021-09-07T172549.200.json
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-07T141258.200.json
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-07T141109.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-07T140941.500.txt
+
+###
+
+POST http://localhost:9611/api/orders
+Content-Type: application/json
+
+{
+  "ownerId": "roc",
+  "recipientId": "1234567",
+  "items": [
+    {
+      "goodsId": 1,
+      "quantity": 1
+    },
+    {
+      "goodsId": 2,
+      "quantity": 2
+    }
+  ]
+}
+
+<> 2021-09-07T140815.500.txt
+
+###
+
 PUT http://localhost:9611/api/packages/1434839692938973184/delivering
 Content-Type: application/json
 
@@ -147,318 +329,6 @@ POST http://localhost:9611/api/payments/1434751300108685312
 ###
 
 POST http://localhost:9611/api/api/payments/1434751300108685312
-
-###
-
-GET http://localhost:9611/api/orders/1434534943584817152/payment
-
-<> 2021-09-06T134056.200.json
-
-###
-
-GET http://localhost:9611/api/orders/1434534943584817152/payment
-
-<> 2021-09-06T134051.200.json
-
-###
-
-GET http://localhost:9611/api/orders/1434534943584817152/payment
-
-<> 2021-09-06T133919.500.txt
-
-###
-
-GET http://localhost:9611/api/orders/1434534943584817152/payment
-
-<> 2021-09-06T133353.500.txt
-
-###
-
-GET http://localhost:9611/api/orders/1434534943584817152/payment
-
-<> 2021-09-06T133239.200.json
-
-###
-
-GET http://localhost:9611/api/orders/1434534943584817152/payment
-
-<> 2021-09-06T132709.500.txt
-
-###
-
-GET http://localhost:9611/api/orders/1434534943584817152/payment
-
-<> 2021-09-06T132539.500.txt
-
-###
-
-GET http://localhost:9611/api/orders/1434534943584817152/payment
-
-<> 2021-09-06T132331.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T231237.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T231151.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T231046.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T230857.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T230705.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T230449.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T230300.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T230114.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T225946.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T225744.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T225600.500.txt
-
-###
-
-POST http://localhost:9611/api/orders
-Content-Type: application/json
-
-{
-  "ownerId": "roc",
-  "recipientId": "1234567",
-  "items": [
-    {
-      "goodsId": 1,
-      "quantity": 1
-    },
-    {
-      "goodsId": 2,
-      "quantity": 2
-    }
-  ]
-}
-
-<> 2021-09-05T225354.500.txt
 
 ###
 

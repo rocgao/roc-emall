@@ -19,17 +19,5 @@ namespace Roc.EMall.Domain.SkuContext
         public int Occupied { get; set; }
         public int Used { get; set; }
         public ICollection<SkuOpsRecord> OpsRecords { get; }
-
-        public void Occupy(int quantity, string businessId,string @operator)
-        {
-            if (quantity > Available)
-            {
-                throw new SkuOccupationException($"库存不足。Goods:{Name}({SkuId}),Available:{Available},Occupied:{quantity}");
-            }
-
-            Available -= quantity;
-            Occupied += quantity;
-            OpsRecords.Add(new SkuOpsRecord(SkuId,quantity,@operator,SkuOpsKind.Occupation,businessId));
-        }
     }
 }

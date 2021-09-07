@@ -15,10 +15,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddMediatR(Assembly.GetExecutingAssembly())
                 .AddSingleton<IDomainEventPublisher,DomainEventPublisher>()
                 .AddSingleton<ISubmitOrderAppService, SubmitOrderAppService>()
-                .AddSingleton<IPayOrderAppService,PayOrderAppService>()
-                .AddSingleton<IPayAppService,PayAppService>()
+                .AddSingleton<IInitiatePaymentAppService,InitiatePaymentAppService>()
+                .AddSingleton<ICompletePaymentAppService,CompletePaymentAppService>()
                 .AddSingleton<IPackAppService,PackAppService>()
-                .AddSingleton<IDeliverPackageAppService,DeliverPackageAppService>();
+                .AddSingleton<IDeliverPackageAppService,DeliverPackageAppService>()
+                .AddSingleton<ISignPackageAppService,SignPackageAppService>();
         }
     }
 }

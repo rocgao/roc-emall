@@ -22,7 +22,7 @@ namespace Roc.EMall.Application.Components
         protected override async Task InternalHandle(OrderPackedEvent notification, CancellationToken cancellationToken)
         {
             var order = await _queryRepository.GetAsync(notification.OrderId)??throw new ArgumentNullException($"订单不存在！orderId:{notification.OrderId}");
-            order.ChangeStatus(OrderStatus.Packaged);
+            order.Pack(notification.PackageId);
 
             using var uow = _uowFactory.Create();
             var repo = uow.CreateRepository<IOrderRepository>();

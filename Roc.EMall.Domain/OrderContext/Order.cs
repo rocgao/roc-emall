@@ -6,34 +6,36 @@ namespace Roc.EMall.Domain.OrderContext
 {
     public partial class Order
     {
-        private readonly string _businessId;
-
         private static readonly Dictionary<OrderStatus, IOrderStatusHandler> statusHandlers = new()
         {
             { OrderStatus.Submitted, new SubmittedStatusHandler() },
             { OrderStatus.Paid, new PaidStatusHandler() },
             { OrderStatus.Packaged, new PackedStatusHandler() },
+            { OrderStatus.Delivered, new DeliveredStatusHandler() },
+            { OrderStatus.Signed, new SignedStatusHandler() },
         };
 
-        public Order(long orderId, OwnerInfo owner, RecipientInfo recipient, decimal amount,OrderStatus? status, LineItem[] items)
+        public Order(long orderId, string owner, RecipientInfo recipient, decimal amount, LineItem[] items,
+            OrderStatus? status = null, PaymentInfo payment = null, ExpressInfo express = null)
         {
-            _businessId = orderId.ToString();
             OrderId = orderId;
             Owner = owner;
             Recipient = recipient;
             Amount = amount;
             Status = status;
+            Express = express ?? new ExpressInfo(null, string.Empty);
             Items = items;
+            Payment = payment ?? new PaymentInfo(null, null);
         }
 
-        public string BusinessId => _businessId;
         public long OrderId { get; }
-        public OwnerInfo Owner { get; }
+        public string Owner { get; }
         public RecipientInfo Recipient { get; }
         public decimal Amount { get; }
         public LineItem[] Items { get; }
         public OrderStatus? Status { get; private set; }
-        public long TransactionId { get; set; }
+        public ExpressInfo Express { get; private set; }
+        public PaymentInfo Payment { get; private set; }
 
         public NewOrderEvent GetNewOrderEvent(long eventId) => new NewOrderEvent(eventId, OrderId);
 
@@ -62,21 +64,34 @@ namespace Roc.EMall.Domain.OrderContext
                 throw new InvalidOperationException($"订单状态不正确！Status:{Status.ToString()}");
             }
 
-            TransactionId = transactionId;
+            Payment = Payment with { TransactionId = transactionId };
         }
 
         /// <summary>
         /// 完成付款
         /// </summary>
-        /// <param name="transactionId">交易编号</param>
         /// <exception cref="ArgumentException"></exception>
-        public void CompletePayment(long transactionId)
+        public void CompletePayment(DateTime paidTime)
         {
-            if (transactionId != TransactionId)
-            {
-                throw new ArgumentException($"交易编号不正确！");
-            }
             ChangeStatus(OrderStatus.Paid);
+            Payment = Payment with { PaidTime = paidTime };
+        }
+
+        public void Pack(long packageId)
+        {
+            ChangeStatus(OrderStatus.Packaged);
+            Express = Express with { PackageId = packageId };
+        }
+
+        public void Deliver(string expressNo)
+        {
+            ChangeStatus(OrderStatus.Delivered);
+            Express = Express with { ExpressNo = expressNo };
+        }
+
+        public void Sign(DateTime signingTime)
+        {
+            ChangeStatus(OrderStatus.Signed);
         }
     }
 }

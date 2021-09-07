@@ -2,7 +2,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Roc.EMall.Domain.Event;
-using Roc.EMall.Domain.OrderContext;
 using Roc.EMall.Repository;
 using Snowflake.Core;
 
@@ -17,7 +16,8 @@ namespace Roc.EMall.Application.Components
         private readonly IDomainEventPublisher _eventPublisher;
 
         public PaymentFinishEventHandler(ILogger<PaymentFinishEventHandler> logger, IUOWFactory uowFactory, 
-            IOrderQueryRepository queryRepository,IdWorker idWorker,
+            IOrderQueryRepository queryRepository,
+            IdWorker idWorker,
             IDomainEventPublisher eventPublisher)
             : base(logger)
         {
@@ -30,18 +30,20 @@ namespace Roc.EMall.Application.Components
 
         protected override async Task InternalHandle(PaymentFinishEvent notification, CancellationToken cancellationToken)
         {
-            var order = await _queryRepository.GetByTransactionAsync(notification.TransactionId);
+            var order = await _queryRepository.GetAsync(notification.OrderId);
             if (order == null)
             {
-                _logger.LogInformation($"不存在订单！TransactionId:{notification.TransactionId}");
+                _logger.LogInformation($"不存在订单！OrderId:{notification.OrderId}");
                 return;
             }
 
-            order.CompletePayment(notification.TransactionId);
+            order.CompletePayment(notification.PaidTime);
 
             using var uow = _uowFactory.Create();
             var repo = uow.CreateRepository<IOrderRepository>();
+            var skuRepo = uow.CreateRepository<ISkuRepository>();
             await repo.StoreAsync(order);
+            await skuRepo.UseAsync(order.OrderId, "handler");
             uow.Commit();
             
             // 发布领域事件

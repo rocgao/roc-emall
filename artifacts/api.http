@@ -20,26 +20,32 @@ Content-Type: application/json
 ###
 
 # 发起付款
-GET {{host}}/orders/1434534943584817152/payment
+GET {{host}}/orders/1435123910076141568/payment
 
 ###
 
 # 付款成功
-POST {{host}}/payments/1434751300108685312
+POST {{host}}/payments/1435172442178981888
 
 ###
 
 # 订单打包
-POST {{host}}/packages?orderId=1434534943584817152
+POST {{host}}/packages?orderId=1435123910076141568
 
 ###
 
 # 订单发货
-PUT {{host}}/packages/1434839692938973184/delivering
+PUT {{host}}/packages/1435176008885080064/delivering
 Content-Type: application/json
 
 {
-  "expressNo": "123456677"
+  "expressNo": "123456678"
 }
+
+###
+
+# 订单签收
+PUT {{host}}/packages/1435176008885080064/signing
+Content-Type: application/json
 
 ###

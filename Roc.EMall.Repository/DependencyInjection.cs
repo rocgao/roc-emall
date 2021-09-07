@@ -20,7 +20,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddTransient<ITransactionRepository,TransactionRepository>()
                 .AddTransient<ITransactionQueryRepository,TransactionQueryRepository>()
                 .AddTransient<IPackageRepository,PackageRepository>()
-                .AddTransient<IPackageQueryRepository,PackageQueryRepository>();
+                .AddTransient<IPackageQueryRepository,PackageQueryRepository>()
+                .AddTransient<IGoodsQueryRepository,GoodsQueryRepository>();
             
         }
     }

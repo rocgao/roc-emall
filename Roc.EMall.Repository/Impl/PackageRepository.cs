@@ -6,7 +6,7 @@ using Roc.EMall.Domain.SkuContext;
 
 namespace Roc.EMall.Repository.Impl
 {
-    class PackageRepository:RepositoryBase,IPackageRepository
+    class PackageRepository : RepositoryBase, IPackageRepository
     {
         public async ValueTask<PackagePending> GetAsync(long orderId)
         {
@@ -18,6 +18,7 @@ namespace Roc.EMall.Repository.Impl
 
             return new PackagePending(entity.order_id, entity.is_packed != 0);
         }
+
         public async ValueTask AddPendingAsync(long orderId)
         {
             var entity = await GetAsync(orderId);
@@ -25,14 +26,14 @@ namespace Roc.EMall.Repository.Impl
             {
                 return;
             }
-            
+
             await Database.ExecuteAsync("insert into `package_pending` (`order_id`,`created_at`) values(@OrderId,@CreatedAt)",
-                new { OrderId = orderId, CreatedAt = DateTime.Now },Transaction);
+                new { OrderId = orderId, CreatedAt = DateTime.Now }, Transaction);
         }
 
         public async ValueTask StoreAsync(Package package)
         {
-            var existingEntity = await Database.QueryFirstOrDefaultAsync("SELECT `con_version` FROM `package` WHERE `id`=@Id", package,Transaction);
+            var existingEntity = await Database.QueryFirstOrDefaultAsync("SELECT `con_version` FROM `package` WHERE `id`=@Id", package, Transaction);
             if (existingEntity == null)
             {
                 await InsertAsync(package);
@@ -43,26 +44,27 @@ namespace Roc.EMall.Repository.Impl
             }
         }
 
-        private const string insertPackageSql = @"insert into `package` (`id`,`order_id`,`recipient_name`,`recipient_phone`,`recipient_address`,`items`,`created_at`) 
-            values(@Id,@OrderId,@RecipientName,@RecipientPhone,@RecipientAddress,@Items,@CreatedAt)";
+        private const string insertPackageSql = @"insert into `package` (`id`,`order_id`,`recipient_name`,`recipient_phone`,`recipient_address`,`created_at`) 
+            values(@Id,@OrderId,@RecipientName,@RecipientPhone,@RecipientAddress,@CreatedAt)";
+
         private async ValueTask InsertAsync(Package package)
         {
             await Database.ExecuteAsync(insertPackageSql, new
             {
-                package.Id, package.OrderId, package.RecipientName, package.RecipientPhone, package.RecipientAddress,
-                Items = package.Items.Select(it => $"{it.goodsId} -> {it.quantity}").Aggregate(string.Empty, (x, y) => $"{x},{y}"),
-                CreatedAt=DateTime.Now,
-            });
+                package.Id, package.OrderId, package.RecipientName, package.RecipientPhone, package.RecipientAddress, CreatedAt = DateTime.Now,
+            }, Transaction);
+            await Database.ExecuteAsync("INSERT INTO `package_line_item` VALUES(@PackageId,@Id,@GoodsId,@GoodsName,@GoodsQuantity)", package.Items, Transaction);
         }
 
         private const string updatePackageSql = @"update `package` set `con_version`=`con_version` + 1,`is_delivered`=@IsDelivered,`delivering_time`=@DeliveringTime,
             `express_no`=@ExpressNo,`is_signed`=@IsSigned,`signing_time`=@SigningTime WHERE `id`=@Id AND `con_version`=@conVersion";
-        private async ValueTask UpdateAsync(Package package,int conVersion)
+
+        private async ValueTask UpdateAsync(Package package, int conVersion)
         {
             await Database.ExecuteAsync(updatePackageSql, new
             {
-                package.Id,package.IsDelivered,package.DeliveringTime,package.ExpressNo,
-                package.IsSigned,package.SigningTime,
+                package.Id, package.IsDelivered, package.DeliveringTime, package.ExpressNo,
+                package.IsSigned, package.SigningTime,
                 conVersion,
             });
         }
